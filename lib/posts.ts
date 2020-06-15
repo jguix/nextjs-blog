@@ -6,7 +6,7 @@ import html from 'remark-html';
 
 const postsDirectory = path.join(process.cwd(), 'posts');
 
-export function getSortedPostsData() {
+export const getSortedPostsData = () => {
   // Get file names under /posts
   const fileNames = fs.readdirSync(postsDirectory);
   const allPostsData = fileNames.map((fileName) => {
@@ -28,15 +28,16 @@ export function getSortedPostsData() {
   });
   // Sort posts by date
   return allPostsData.sort((a, b) => {
+    // @ts-ignore
     if (a.date < b.date) {
       return 1;
     } else {
       return -1;
     }
   });
-}
+};
 
-export function getAllPostIds() {
+export const getAllPostIds = () => {
   const fileNames = fs.readdirSync(postsDirectory);
   return fileNames.map((fileName) => {
     return {
@@ -45,9 +46,9 @@ export function getAllPostIds() {
       },
     };
   });
-}
+};
 
-export async function getPostData(id) {
+export const getPostData = async (id: string) => {
   const fullPath = path.join(postsDirectory, `${id}.md`);
   const fileContents = fs.readFileSync(fullPath, 'utf8');
 
@@ -56,6 +57,7 @@ export async function getPostData(id) {
 
   // Use remark to convert markdown into HTML string
   const processedContent = await remark()
+    // @ts-ignore
     .use(html)
     .process(matterResult.content);
   const contentHtml = processedContent.toString();
@@ -66,4 +68,4 @@ export async function getPostData(id) {
     contentHtml,
     ...matterResult.data,
   };
-}
+};
