@@ -2,11 +2,18 @@ import Head from 'next/head';
 import styles from './layout.module.css';
 import utilStyles from '../styles/utils.module.css';
 import Link from 'next/link';
+import { FC, PropsWithChildren } from 'react';
 
 const name = 'Ona Jordán';
 export const siteTitle = 'Next.js Sample Website';
 
-const Layout = ({ children, home }) => {
+type OwnProps = {
+  home: boolean;
+};
+
+type Props = OwnProps & PropsWithChildren<any>;
+
+const Layout: FC<Props> = ({ children, home }) => {
   return (
     <div className={styles.container}>
       <Head>
